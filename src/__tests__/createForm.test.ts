@@ -1,5 +1,4 @@
 import { createValidator } from '../createValidator'
-import { AtomValidatorResult, NestedValidatorResult } from '../data/results'
 
 describe('createForm', () => {
   describe('flat validation', () => {
@@ -194,8 +193,6 @@ describe('createForm', () => {
       const result = validatePerson(person)
       expect(result.isValid).toBeTruthy()
 
-      let f = result.fields.address
-
       const { name, address } = result.fields
       expect(name.isValid).toBeTruthy()
       expect(name.errors).toHaveLength(0)
@@ -205,7 +202,32 @@ describe('createForm', () => {
       expect(city.isValid).toBeTruthy()
       expect(city.errors).toHaveLength(0)
       expect(street.isValid).toBeTruthy()
+      expect(street.errors).toHaveLength(0)
+    })
+
+    test('nested errors cause whole validation to be invalid', () => {
+      const validateAddress = createValidator<Address>()({
+        city: [],
+        street: [() => '1'],
+      })
+      const validatePerson = createValidator<Person>()({
+        name: [],
+        address: validateAddress,
+      })
+
+      const result = validatePerson(person)
+      expect(result.isValid).toBeFalsy()
+
+      const { name, address } = result.fields
+      expect(name.isValid).toBeTruthy()
+      expect(name.errors).toHaveLength(0)
+      expect(address.isValid).toBeFalsy()
+
+      const { city, street } = address.fields
+      expect(city.isValid).toBeTruthy()
       expect(city.errors).toHaveLength(0)
+      expect(street.isValid).toBeFalsy()
+      expect(street.errors).toEqual(['1'])
     })
   })
 })
