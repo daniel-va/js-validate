@@ -1,3 +1,6 @@
-# react-form
+# `@daniel-va/js-validate`
 
-a react form library
+Validators for JavaScript and TypeScript. Fully typed.
+
+
+

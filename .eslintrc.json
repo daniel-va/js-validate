@@ -5,7 +5,6 @@
   ],
   "extends": [
     "eslint:recommended",
-    "next/core-web-vitals",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
@@ -15,9 +14,6 @@
 
     // Require single quotes.
     "quotes": ["error", "single"],
-
-    // Require double quotes in JSX.
-    "jsx-quotes": ["error", "prefer-double"],
 
     // Don't use semicolons.
     "semi": ["error", "never"],
@@ -44,20 +40,6 @@
     "@typescript-eslint/no-unused-vars": ["warn", {
       "varsIgnorePattern": "^_",
       "argsIgnorePattern": "^_"
-    }],
-
-    "react/jsx-tag-spacing": ["error", {
-      // Require a space before closing a self-closing JSX element:
-      //    <div />
-      "beforeSelfClosing": "always",
-
-      // Disallow spaces before closing a normal JSX element:
-      //    <div>...</div>
-      "beforeClosing": "never"
-    }],
-
-    // Allow children to be passed as prob.
-    // This is almost a necessity if we want to pass function variables as children.
-    "react/no-children-prop": "off"
+    }]
   }
 }
