@@ -31,8 +31,11 @@ type ValidatorFieldResult<BASE, T, K extends keyof T, C extends ValidatorConfigF
     C extends AtomValidatorConfig<BASE, T[K]>
       ? AtomValidatorResult
       :
-    C extends ValidatorOfConfig<T[K], any>
-      ? (C extends (...args: any[]) => infer P ? P : never)
+    C extends ValidatorOfConfig<any, infer CP>
+      ? ValidatorResultOfConfig<T[K], T[K], CP>
+      :
+    C extends Validator<T[K]>
+      ? ValidatorResult<T[K]>
       :
     C extends NestedValidatorConfig<BASE, T[K]>
       ? ValidatorResultOfConfig<BASE, T[K], C>
